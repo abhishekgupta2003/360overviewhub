@@ -1,0 +1,165 @@
+DOCTYPE<! html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Affairs Today - 360 Overview Hub</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* A light gray background */
+        }
+        .header-title {
+            font-weight: 900; /* Black weight for a strong title */
+            color: #1e3a8a; /* A deep blue color */
+        }
+        .news-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 text-blue-800 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 4.5h1.5m-7.5 3h7.5m-7.5 3h7.5m3-13.5h2.25m-2.25 3h2.25m-2.25 3h2.25m-2.25 3h2.25M3 12l3 3m0 0l3-3m-3 3V6.75A2.25 2.25 0 018.25 4.5h7.5A2.25 2.25 0 0118 6.75V18a2.25 2.25 0 01-2.25 2.25h-7.5A2.25 2.25 0 013 18v-2.25z" />
+                    </svg>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-gray-800 tracking-tight">360 Overview Hub</h1>
+                </div>
+                <div class="text-right">
+                     <p id="current-date" class="text-sm text-gray-500"></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        
+        <!-- Page Title Section -->
+        <div class="text-center mb-10">
+            <h2 class="header-title text-4xl md:text-5xl">Current Affairs</h2>
+            <p class="mt-2 text-lg text-gray-600">Today's Top 20 News Headlines</p>
+        </div>
+
+        <!-- News Grid -->
+        <div id="news-grid" class="grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <!-- News cards will be dynamically inserted here by JavaScript -->
+        </div>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+            <p>&copy; <span id="footer-year"></span> 360 Overview Hub. All Rights Reserved.</p>
+            <p class="text-sm text-gray-400 mt-1">Created by Abhishek Gupta</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript to dynamically create news cards and set dates
+
+        // --- Mock Data for News Articles ---
+        // In a real application, this data would come from a news API
+        const newsData = [
+            { category: 'National', title: 'Government announces new education policy reforms.' },
+            { category: 'International', title: 'Global leaders meet for climate change summit.' },
+            { category: 'Business', title: 'Stock market reaches a new all-time high.' },
+            { category: 'Technology', title: 'Tech giant unveils groundbreaking AI model.' },
+            { category: 'Sports', title: 'National cricket team wins championship series.' },
+            { category: 'Health', title: 'New study reveals benefits of a plant-based diet.' },
+            { category: 'Politics', title: 'Parliament passes landmark infrastructure bill.' },
+            { category: 'Science', title: 'Astronomers discover a new Earth-like exoplanet.' },
+            { category: 'Entertainment', title: 'Highly anticipated blockbuster movie releases worldwide.' },
+            { category: 'National', title: 'Major infrastructure project completed ahead of schedule.' },
+            { category: 'Economy', title: 'Inflation rates show signs of stabilizing, reports Central Bank.' },
+            { category: 'Environment', title: 'New conservation efforts launched to protect endangered species.' },
+            { category: 'International', title: 'Trade agreement signed between two major economic powers.' },
+            { category: 'Technology', title: 'Quantum computing achieves a new milestone.' },
+            { category: 'Sports', title: 'Athlete breaks a long-standing world record in track and field.' },
+            { category: 'Health', title: 'Breakthrough in cancer research offers new hope for patients.' },
+            { category: 'Education', title: 'Universities to increase funding for research and development.' },
+            { category: 'Business', title: 'Start-up ecosystem sees record investment in the last quarter.' },
+            { category: 'Politics', title: 'Election commission announces dates for upcoming state elections.' },
+            { category: 'Science', title: 'Deep-sea expedition discovers several new marine species.' }
+        ];
+
+        const categoryColors = {
+            'National': 'bg-blue-100 text-blue-800',
+            'International': 'bg-green-100 text-green-800',
+            'Business': 'bg-indigo-100 text-indigo-800',
+            'Technology': 'bg-purple-100 text-purple-800',
+            'Sports': 'bg-orange-100 text-orange-800',
+            'Health': 'bg-red-100 text-red-800',
+            'Politics': 'bg-gray-100 text-gray-800',
+            'Science': 'bg-yellow-100 text-yellow-800',
+            'Entertainment': 'bg-pink-100 text-pink-800',
+            'Economy': 'bg-teal-100 text-teal-800',
+            'Environment': 'bg-lime-100 text-lime-800'
+        };
+
+        // --- Function to Create a News Card ---
+        function createNewsCard(article, index) {
+            const colorClasses = categoryColors[article.category] || 'bg-gray-100 text-gray-800';
+            return `
+                <div class="news-card bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+                    <div class="p-5 flex-grow">
+                        <div class="flex items-center mb-3">
+                            <span class="text-2xl font-bold text-gray-300 mr-3">${index + 1}</span>
+                            <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full ${colorClasses}">
+                                ${article.category}
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 leading-tight">
+                            ${article.title}
+                        </h3>
+                    </div>
+                    <div class="px-5 py-3 bg-gray-50">
+                        <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800">
+                            Read more &rarr;
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- Populate the Page on Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate News Grid
+            const newsGrid = document.getElementById('news-grid');
+            let gridHtml = '';
+            newsData.forEach((article, index) => {
+                gridHtml += createNewsCard(article, index);
+            });
+            newsGrid.innerHTML = gridHtml;
+
+            // Set Current Date in Header
+            const dateElement = document.getElementById('current-date');
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.textContent = today.toLocaleDateString('en-US', options);
+
+            // Set Current Year in Footer
+            const yearElement = document.getElementById('footer-year');
+            yearElement.textContent = today.getFullYear();
+        });
+    </script>
+
+</body>
+</html>
